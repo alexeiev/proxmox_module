@@ -21,11 +21,17 @@ No requirements.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 |vm_template|Template name|`string`|`ubuntu-2204-v20240213`|no|
+|site|URL to Proxmox|`string`||yes|
 |srv_target_node|Node in the proxmox cluster (hp01\|le01) |`string`| `hp01` | no |
-|vm_ip_address|Ip address list (static)|`list(string)`| | yes|
 |vm_qnt|number of virtual machines |`number`| `1` |no|
 |vm_name|Virtual Machine Name|`string`| |yes|
 |vm_id|Virtual Machine id|`number`| |yes|
+|vm_memory|Memory in MB|`number`|`1024`|no|
+|vm_cpu|Number of processors of the VM|`number`|`1`|no|
+|vm_disk|Disk in GB|`number`|30|no|
+|net|Interface name|`string`|`vmbr0`|no|
+|net_vlan|Vlan tag for segmented network|`number`|`-1` (disable)|no|
+|vm_ip_address|Ip address list (static)|`list(string)`| | yes|
 |username-so|Username |`string`|`alexeiev`|no|
 |sshkeys|SSH Public key|`string`| | no|
 |environment|Create tag for environment (DEV\|QUA\|PROD)|`string`| `DEV` | no 
@@ -51,13 +57,19 @@ module "create_vm" {
   source = "github.com/alexeiev/proxmox_module?ref=v1.0.0"
   
   vm_template       = ""
+  site              = ""
   srv_target_node   = ""
-  vm_ip_address     = [ ]
   vm_qnt            = 
   vm_name           = ""
   vm_id             = 
+  vm_memory         =
+  vm_cpu            =
+  vm_disk           =
+  net               = ""
+  net_vlan          =
+  vm_ip_address     = [ ]
   username-so       = ""
-  sshkeys           = 
+  sshkeys           = ""
   environment       = ""
 }
 
@@ -70,8 +82,31 @@ output "ip_address" {
 }
 EOF
 ```
+> [!NOTE]
+> if you use the default values, you can remove or comment the lines.
+
 Export variables for proxmox API authentication
 ```bash
 export PM_API_TOKEN_ID=''
 export PM_API_TOKEN_SECRET=""
+```
+
+initialize the terraform for download modules and providers
+```bash
+terraform init
+```
+
+Create the plan for these resources
+```bash
+terraform plan
+```
+
+Apply this plan
+```bash
+terraform apply
+```
+
+To destroy resources, use:
+```bash
+terraform destroy
 ```
