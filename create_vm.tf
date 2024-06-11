@@ -15,7 +15,7 @@ resource "proxmox_vm_qemu" "create_vm" {
 
   network {
     bridge = var.net
-    tags   = var.net_vlan
+    tag   = var.net_vlan
     model = "virtio"
   } 
 
