@@ -6,10 +6,10 @@ resource "proxmox_vm_qemu" "create_vm" {
   vmid = var.vm_qnt > 1 ? var.vm_id+count.index : var.vm_id
   target_node = "${var.srv_target_node}"
   clone = var.vm_template
-  cores = 2
+  cores = var.cores
   sockets = 1
   cpu = "host"
-  memory = 2048
+  memory = var.memory
   tags = var.environment
   onboot = var.environment == "PROD" ? true : false
 

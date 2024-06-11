@@ -45,3 +45,20 @@ variable "environment" {
   description = "Set Environment (DEV|QUA|PROD)"
   default     = "DEV"
 }
+
+variable "site" {
+  type        = string
+  description = "URL to Proxmox"
+}
+
+variable "memory" {
+  type = number
+  description = "Memory in MB"
+  default = 1024
+}
+
+variable "cores" {
+  type = number
+  description = "CPU cores for VM"
+  default = 1
+}

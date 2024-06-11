@@ -9,6 +9,6 @@ terraform {
 }
 
 provider "proxmox" {
-  pm_api_url = "https://proxmox.home.lab:8006/api2/json"
+  pm_api_url = "https://${var.site}:8006/api2/json"
   pm_tls_insecure = true
 }
