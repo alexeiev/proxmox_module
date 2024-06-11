@@ -36,8 +36,8 @@ No requirements.
 |sshkeys|SSH Public key|`string`| | no|
 |environment|Create tag for environment (DEV\|QUA\|PROD)|`string`| `DEV` | no 
 
-**OBS.:**
-The variable `vm_ip_address` is a list.
+> [!IMPORTANT]
+> The variable `vm_ip_address` is a list.
 Example of use:
 ```bash
 vm_ip_address = [ "ip=192.168.1.50/24,gw=192.168.1.1", "ip=192.168.1.51/24,gw=192.168.1.1", ... ]
