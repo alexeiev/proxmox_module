@@ -6,22 +6,23 @@ resource "proxmox_vm_qemu" "create_vm" {
   vmid = var.vm_qnt > 1 ? var.vm_id+count.index : var.vm_id
   target_node = "${var.srv_target_node}"
   clone = var.vm_template
-  cores = 2
+  cores = var.vm_cpu
   sockets = 1
   cpu = "host"
-  memory = 2048
+  memory = var.vm_memory
   tags = var.environment
   onboot = var.environment == "PROD" ? true : false
 
   network {
-    bridge = "vmbr0"
+    bridge = var.net
+    tag   = var.net_vlan
     model = "virtio"
   } 
 
   disk {
     storage = "nfs"
     type = "scsi"
-    size = "30G"
+    size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
   }
   
   os_type = "cloud-init"
