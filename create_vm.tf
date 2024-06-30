@@ -19,10 +19,23 @@ resource "proxmox_vm_qemu" "create_vm" {
     model = "virtio"
   } 
 
-  disk {
-    storage = "nfs"
-    type = "scsi"
-    size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
+  disks {
+    ide {
+      ide2 {
+        cloudinit {
+          storage = "nfs"
+        }
+      }
+    }
+    
+    scsi {
+      scsi0 {
+        disk {
+          storage = "nfs"
+          size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
+        }
+      }
+    }
   }
   
   os_type = "cloud-init"
