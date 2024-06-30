@@ -10,8 +10,8 @@ resource "proxmox_vm_qemu" "create_vm" {
   sockets = 1
   cpu = "host"
   memory = var.vm_memory
-  tags = var.environment
-  onboot = var.environment == "PROD" ? true : false
+  #tags = var.environment
+  #onboot = var.environment == "PROD" ? true : false
 
   network {
     bridge = var.net
