@@ -31,7 +31,7 @@ variable "vm_ip_address" {
 variable "username-so" {
   type        = string
   description = "Username cloud-init"
-  default     = "alexeiev" 
+  default     = "ubuntu" 
 }
 
 variable "sshkeys" {
