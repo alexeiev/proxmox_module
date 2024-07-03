@@ -80,3 +80,8 @@ variable "net_vlan" {
   description = "Vlan Tag for segmented network"
   default = -1
 }
+
+variable "vm_storage" {
+  type = string
+  description = "Storage name"
+}
