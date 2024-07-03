@@ -12,6 +12,7 @@ resource "proxmox_vm_qemu" "create_vm" {
   memory = var.vm_memory
   boot = "order=scsi0;net0"
   bios = "ovmf"
+  scsihw = "virtual-scsi"
   #tags = var.environment
   #onboot = var.environment == "PROD" ? true : false
 
