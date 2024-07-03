@@ -13,8 +13,8 @@ resource "proxmox_vm_qemu" "create_vm" {
   boot = "order=scsi0;net0"
   bios = "ovmf"
   scsihw = "virtio-scsi-pci"
-  #tags = var.environment
-  #onboot = var.environment == "PROD" ? true : false
+  tags = var.environment
+  onboot = var.environment == "PROD" ? true : false
 
   network {
     bridge = var.net
