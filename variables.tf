@@ -31,7 +31,7 @@ variable "vm_ip_address" {
 variable "username-so" {
   type        = string
   description = "Username cloud-init"
-  default     = "alexeiev" 
+  default     = "ubuntu" 
 }
 
 variable "sshkeys" {
@@ -42,8 +42,8 @@ variable "sshkeys" {
 
 variable "environment" {
   type        = string
-  description = "Set Environment (DEV|QUA|PROD)"
-  default     = "DEV"
+  description = "Set Environment (dev|qua|prod)"
+  default     = "dev"
 }
 
 variable "site" {
@@ -79,4 +79,9 @@ variable "net_vlan" {
   type = number
   description = "Vlan Tag for segmented network"
   default = -1
+}
+
+variable "vm_storage" {
+  type = string
+  description = "Storage name"
 }

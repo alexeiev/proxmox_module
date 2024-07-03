@@ -10,8 +10,11 @@ resource "proxmox_vm_qemu" "create_vm" {
   sockets = 1
   cpu = "host"
   memory = var.vm_memory
+  boot = "order=scsi0;net0"
+  bios = "ovmf"
+  scsihw = "virtio-scsi-pci"
   tags = var.environment
-  onboot = var.environment == "PROD" ? true : false
+  onboot = var.environment == "prod" ? true : false
 
   network {
     bridge = var.net
@@ -19,10 +22,26 @@ resource "proxmox_vm_qemu" "create_vm" {
     model = "virtio"
   } 
 
-  disk {
-    storage = "nfs"
-    type = "scsi"
-    size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
+  efidisk {
+    efitype = "4m"
+    storage = var.vm_storage
+  }
+
+  disks { 
+    scsi {
+      scsi0 {
+        disk {
+          storage = var.vm_storage
+          format = "qcow2"
+          size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
+        }
+      }
+      scsi1 {
+        cloudinit {
+          storage = var.vm_storage
+        }
+      }
+    }
   }
   
   os_type = "cloud-init"
