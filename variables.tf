@@ -42,8 +42,8 @@ variable "sshkeys" {
 
 variable "environment" {
   type        = string
-  description = "Set Environment (DEV|QUA|PROD)"
-  default     = "DEV"
+  description = "Set Environment (dev|qua|prod)"
+  default     = "dev"
 }
 
 variable "site" {
