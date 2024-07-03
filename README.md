@@ -8,7 +8,7 @@ No requirements.
 
 | Name | Version |
 |------|---------|
-|<a name="telmate/proxmox"></a>[telmate]([#telmate\/proxmox](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs))|2.9.9|
+|<a name="telmate/proxmox"></a>[telmate]([#telmate\/proxmox](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs))|3.0.1-rc3|
 
 ## Resources
 
@@ -23,6 +23,7 @@ No requirements.
 |vm_template|Template name|`string`|`ubuntu-2204-v20240213`|no|
 |site|URL to Proxmox|`string`||yes|
 |srv_target_node|Node in the proxmox cluster (hp01\|le01) |`string`| `hp01` | no |
+|vm_storage|Storage name|`string`| | yes| 
 |vm_qnt|number of virtual machines |`number`| `1` |no|
 |vm_name|Virtual Machine Name|`string`| |yes|
 |vm_id|Virtual Machine id|`number`| |yes|
@@ -32,9 +33,9 @@ No requirements.
 |net|Interface name|`string`|`vmbr0`|no|
 |net_vlan|Vlan tag for segmented network|`number`|`-1` (disable)|no|
 |vm_ip_address|Ip address list (static)|`list(string)`| | yes|
-|username-so|Username |`string`|`alexeiev`|no|
+|username-so|Username |`string`|`ubuntu`|no|
 |sshkeys|SSH Public key|`string`| | no|
-|environment|Create tag for environment (DEV\|QUA\|PROD)|`string`| `DEV` | no 
+|environment|Create tag for environment (dev\|qua\|prod)|`string`| `dev` | no 
 
 > [!IMPORTANT]
 > The variable `vm_ip_address` is a list.
@@ -54,7 +55,7 @@ Create file terrafile.tf with this content
 ```bash
 cat <<EOF>> terrafile.tf
 module "create_vm" {
-  source = "github.com/alexeiev/proxmox_module?ref=v1.0.0"
+  source = "github.com/alexeiev/proxmox_module?ref=v3.0.0"
   
   vm_template       = ""
   site              = ""
@@ -65,6 +66,7 @@ module "create_vm" {
   vm_memory         =
   vm_cpu            =
   vm_disk           =
+  vm_storage        = ""
   net               = ""
   net_vlan          =
   vm_ip_address     = [ ]
