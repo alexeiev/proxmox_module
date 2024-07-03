@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "create_vm" {
   sockets = 1
   cpu = "host"
   memory = var.vm_memory
-  boot = "order=scsi1;net0"
+  boot = "order=scsi0;net0"
   bios = "ovmf"
   scsihw = "virtio-scsi-pci"
   tags = var.environment
@@ -30,15 +30,15 @@ resource "proxmox_vm_qemu" "create_vm" {
   disks { 
     scsi {
       scsi0 {
-        cloudinit {
-          storage = var.vm_storage
-        }
-      }
-      scsi1 {
         disk {
           storage = var.vm_storage
           format = "qcow2"
           size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
+        }
+      }
+      scsi1 {
+        cloudinit {
+          storage = var.vm_storage
         }
       }
     }
