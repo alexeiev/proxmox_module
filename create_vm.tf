@@ -22,6 +22,11 @@ resource "proxmox_vm_qemu" "create_vm" {
     model = "virtio"
   } 
 
+  efidisk {
+    efitype = "4m"
+    storage = var.vm_storage
+  }
+  
   disks { 
     scsi {
       scsi0 {
