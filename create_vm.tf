@@ -10,6 +10,8 @@ resource "proxmox_vm_qemu" "create_vm" {
   sockets = 1
   cpu = "host"
   memory = var.vm_memory
+  boot = "scsi0;net0"
+  bios = "ovmf"
   #tags = var.environment
   #onboot = var.environment == "PROD" ? true : false
 
@@ -23,7 +25,7 @@ resource "proxmox_vm_qemu" "create_vm" {
     ide {
       ide2 {
         cloudinit {
-          storage = "nfs"
+          storage = var.vm_storage
         }
       }
     }
@@ -31,7 +33,7 @@ resource "proxmox_vm_qemu" "create_vm" {
     scsi {
       scsi0 {
         disk {
-          storage = "nfs"
+          storage = var.vm_storage
           size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
         }
       }
