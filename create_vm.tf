@@ -10,7 +10,7 @@ resource "proxmox_vm_qemu" "create_vm" {
   sockets = 1
   cpu = "host"
   memory = var.vm_memory
-  boot = "scsi0;net0"
+  boot = "order=scsi0;net0"
   bios = "ovmf"
   #tags = var.environment
   #onboot = var.environment == "PROD" ? true : false
