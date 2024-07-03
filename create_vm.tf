@@ -34,6 +34,7 @@ resource "proxmox_vm_qemu" "create_vm" {
       scsi0 {
         disk {
           storage = var.vm_storage
+          format = "qcow2"
           size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
         }
       }
