@@ -8,7 +8,7 @@ resource "proxmox_vm_qemu" "create_vm" {
   clone = var.vm_template
   cores = var.vm_cpu
   sockets = 1
-  cpu = "host"
+  cpu_type = "host"
   memory = var.vm_memory
   boot = "order=scsi0;net0"
   bios = "ovmf"
@@ -17,23 +17,19 @@ resource "proxmox_vm_qemu" "create_vm" {
   onboot = var.environment == "prod" ? true : false
 
   network {
-    bridge = var.net
-    tag   = var.net_vlan
+    id     = 0
+    bridge = var.net == "" ? "vmbr0" : var.net
+    tag   = var.net_vlan == "" ? 0 : var.net_vlan
     model = "virtio"
   } 
-
-  efidisk {
-    efitype = "4m"
-    storage = var.vm_storage
-  }
 
   disks { 
     scsi {
       scsi0 {
         disk {
           storage = var.vm_storage
-          format = "qcow2"
-          size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
+          format  = var.vm_storage == "local-lvm" ? "raw" : var.vm_storage_type
+          size    = var.vm_disk <= 20 ? "20G" : "${var.vm_disk}G"
         }
       }
       scsi1 {
@@ -45,7 +41,7 @@ resource "proxmox_vm_qemu" "create_vm" {
   }
   
   os_type = "cloud-init"
-  ipconfig0 =  var.vm_ip_address[count.index]
+  ipconfig0 =  var.vm_ip_address[count.index] == "" ? "ip=dhcp" : var.vm_ip_address[count.index]
   ciuser = var.username-so
   sshkeys = <<EOF
   ${var.sshkeys}

@@ -15,7 +15,7 @@ variable "vm_name" {
 
 variable "vm_template" {
   type = string
-  default = "ubuntu-2204-v20240213"
+  default = "ubuntu-2404-v20250226"
 }
 
 variable "srv_target_node" {
@@ -84,4 +84,11 @@ variable "net_vlan" {
 variable "vm_storage" {
   type = string
   description = "Storage name"
+}
+
+variable "vm_storage_type" {
+  type = string
+  description = "Storage type"
+  default = "raw"
+  
 }
