@@ -18,8 +18,8 @@ resource "proxmox_vm_qemu" "create_vm" {
 
   network {
     id     = 0
-    bridge = var.net
-    tag   = var.net_vlan
+    bridge = var.net == "" ? "vmbr0" : var.net
+    tag   = var.net_vlan == "" ? 0 : var.net_vlan
     model = "virtio"
   } 
 
@@ -28,8 +28,8 @@ resource "proxmox_vm_qemu" "create_vm" {
       scsi0 {
         disk {
           storage = var.vm_storage
-          format = "qcow2"
-          size = var.vm_disk <= 30 ? "30G" : "${var.vm_disk}G"
+          format  = var.vm_storage == "local-lvm" ? "raw" : var.vm_storage_type
+          size    = var.vm_disk <= 20 ? "20G" : "${var.vm_disk}G"
         }
       }
       scsi1 {
@@ -41,7 +41,7 @@ resource "proxmox_vm_qemu" "create_vm" {
   }
   
   os_type = "cloud-init"
-  ipconfig0 =  var.vm_ip_address[count.index]
+  ipconfig0 =  var.vm_ip_address[count.index] == "" ? "ip=dhcp" : var.vm_ip_address[count.index]
   ciuser = var.username-so
   sshkeys = <<EOF
   ${var.sshkeys}
