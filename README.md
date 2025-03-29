@@ -44,9 +44,9 @@ Example of use:
 ```bash
 vm_ip_address = [ "ip=192.168.1.50/24,gw=192.168.1.1", "ip=192.168.1.51/24,gw=192.168.1.1", ... ]
 ```
-or use:
+or use blank to default (dhcp):
 ```bash
-vm_ip_address = [ "ip=dhcp" ]
+vm_ip_address = [ "" ]
 ```
 ## Outputs
 | Name | Description |
