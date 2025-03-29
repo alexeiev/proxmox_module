@@ -8,7 +8,7 @@ resource "proxmox_vm_qemu" "create_vm" {
   clone = var.vm_template
   cores = var.vm_cpu
   sockets = 1
-  cpu = "host"
+  cpu_type = "host"
   memory = var.vm_memory
   boot = "order=scsi0;net0"
   bios = "ovmf"
@@ -17,15 +17,11 @@ resource "proxmox_vm_qemu" "create_vm" {
   onboot = var.environment == "prod" ? true : false
 
   network {
+    id     = 0
     bridge = var.net
     tag   = var.net_vlan
     model = "virtio"
   } 
-
-  efidisk {
-    efitype = "4m"
-    storage = var.vm_storage
-  }
 
   disks { 
     scsi {
